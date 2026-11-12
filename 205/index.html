@@ -448,7 +448,7 @@ dialog::backdrop{background:rgba(15,25,23,.5)}
 <button class="pp" type="button" aria-label="멈춤"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13" stroke-width="3"/></svg></button><p class="player-info"><b></b><span></span></p>
 <button class="nx" type="button" aria-label="다음 글 듣기"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5.5v13l9-6.5z" fill="currentColor"/><path d="M18 5.5v13"/></svg></button><button class="cl" type="button" aria-label="듣기 끝내기"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 <p class="toast" role="status" hidden></p>
-<script>window.ISSUE={"name": "손에 손잡고 2026.11 통권 205호", "cover": "img/cover-480.webp"};/* 손에 손잡고 온라인판의 움직임. 꺼져 있어도 글과 사진은 모두 읽힌다. */
+<script>window.ISSUE={"name": "손에 손잡고 2026.11 통권 205호", "cover": "img/cover-480.webp", "no": 205, "count": "https://script.google.com/macros/s/AKfycbzaNbXCr5xtzIeVBlHBtf6NsagrPNkOIKo2ILOleSfCC8ryOSDTVcB5zURu50FJVekv_Q/exec"};/* 손에 손잡고 온라인판의 움직임. 꺼져 있어도 글과 사진은 모두 읽힌다. */
 (() => {
   const d = document, $ = (s, p = d) => p.querySelector(s), $$ = (s, p = d) => [...p.querySelectorAll(s)];
   const store = { get: k => { try { return localStorage.getItem(k) } catch (e) { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch (e) {} } };
@@ -616,6 +616,14 @@ dialog::backdrop{background:rgba(15,25,23,.5)}
       else copy(url).then(() => toast('주소를 복사했습니다. 붙여 넣어 보내 주세요'), () => toast(url));
     }
   });
+
+  /* 방문 집계: 「몇 호인지」와 「이 기기에서 처음인지」만 보낸다(개인 정보·쿠키 없음).
+     점검 도구(자동 브라우저)와 내 컴퓨터 미리보기는 세지 않는다. 받는 쪽은 방문집계/Code.js */
+  if (ISSUE.count && window.fetch && location.protocol === 'https:' && !navigator.webdriver) {
+    const k = 'seen' + ISSUE.no, was = store.get(k); store.set(k, 1);
+    const first = !was && store.get(k) ? 1 : 0;      /* 저장이 안 되는 브라우저는 '처음'으로 세지 않는다(사람 수가 부풀지 않게) */
+    fetch(ISSUE.count + '?i=' + ISSUE.no + '&n=' + first, { mode: 'no-cors', credentials: 'omit', keepalive: true }).catch(() => {});
+  }
 })();
 </script>
 </body></html>
