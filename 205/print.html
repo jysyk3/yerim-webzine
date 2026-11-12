@@ -135,7 +135,7 @@ body.at-top .bar-mast{opacity:0;visibility:hidden}
 .meta dt::before{content:"";display:inline-block;width:0;height:0;margin-right:.4em;border-left:.5em solid currentColor;border-top:.3em solid transparent;border-bottom:.3em solid transparent}
 .meta dt::after{content:" :"}
 .body{line-height:1.9}
-.body p{text-indent:1em}
+.body p{text-indent:1em;text-wrap:pretty}   /* 마지막 줄에 낱말 하나만 떨어지지 않게(되는 브라우저에서만) */
 .body p+p{margin-top:.2rem}
 .gal{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:1.1rem}
 .ph{position:relative;display:block;padding:.26rem;background:var(--frame);border-radius:.8rem;line-height:0}
@@ -278,12 +278,16 @@ body.at-top .bar-mast{opacity:0;visibility:hidden}
 .give-list b::after{content:" :"}
 .acct{margin-top:1rem}
 .acct h5{margin:0;font-size:1.08rem;color:var(--g);font-weight:800;line-height:1.5}
-.acct h5 small{font-weight:400;font-size:.8em;color:#333}
+.acct h5 small{font-weight:400;font-size:.8em;color:#333;white-space:nowrap}
 .acct li{display:flex;align-items:center;gap:.4rem;padding:.22rem 0;border-bottom:1px solid var(--gs);font-size:1rem}
 .acct li span{flex:0 0 3.1rem;color:#333}
 .acct li b{flex:1;font-weight:500;font-size:min(1em,4.1vw);font-variant-numeric:tabular-nums}
 .acct button{flex:none;display:inline-flex;align-items:center;gap:.25rem;min-height:2.75rem;padding:0 .6rem;border:1px solid var(--g);border-radius:.6rem;background:var(--paper);color:var(--g);font-size:.88rem;font-weight:700}
 .acct button:active{background:var(--gs)}
+/* 글자를 키우면 번호가 두 줄로 꺾이므로, 은행 이름·복사 단추를 윗줄에 두고 번호는 아랫줄에 통째로 둔다 */
+.fs1 .acct li,.fs2 .acct li{flex-wrap:wrap;padding:.4rem 0}
+.fs1 .acct li span,.fs2 .acct li span{flex:1}
+.fs1 .acct li b,.fs2 .acct li b{order:1;flex:0 0 100%;font-size:min(1.1em,6.2vw);white-space:nowrap}
 .tax{margin-top:1.1rem;padding:.85rem 1rem;border-radius:.7rem;background:var(--gs);font-size:.92rem;line-height:1.65}
 .give-btns{display:grid;gap:.5rem;margin-top:1.1rem}
 
@@ -316,8 +320,13 @@ body.at-top .bar-mast{opacity:0;visibility:hidden}
 .pub ul+ul{margin-top:.7rem;padding-top:.7rem;border-top:2px solid #fff}
 .pub ul+ul li{position:relative;padding-left:.9rem}
 .pub ul+ul li::before{content:"";position:absolute;left:0;top:.72em;width:.42rem;height:.42rem;background:var(--gb)}
-.pub a{text-underline-offset:.2em}
+.pub a{display:inline-block;min-height:2.75rem;line-height:2.75rem;text-underline-offset:.2em}   /* 손가락으로 누르기 쉬운 높이 */
 .foot-links{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:1.1rem}
+.foot-links .btn{padding-inline:.5rem}   /* 좁은 화면(360)에서 단추 글자가 두 줄로 꺾이지 않게 */
+.sns{margin-top:1.5rem}
+.sns h3{font-size:1rem;font-weight:700;color:#333;text-align:center}
+.sns .foot-links{margin-top:.6rem}
+.sns a:last-child:nth-child(odd){grid-column:1/-1}
 .love{margin-top:1.5rem;text-align:center;font-size:.88rem;color:var(--sub)}
 .love b{font-style:italic;font-weight:800;color:#222;margin-right:.4rem}
 
@@ -396,7 +405,7 @@ dialog::backdrop{background:rgba(15,25,23,.5)}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 @media print{
-  .bar,.menu,.listen-row,.player,.toc-btns,.foot-links,.finder,.more,.give-btns,.skip,.lb{display:none!important}
+  .bar,.menu,.listen-row,.player,.toc-btns,.foot-links,.sns,.finder,.more,.give-btns,.skip,.lb{display:none!important}
   .cover{margin-top:0}
   body{background:#fff}.page{max-width:none}.names.fold ul{max-height:none;-webkit-mask:none;mask:none}
   .art,.st,.vols figure{break-inside:avoid}
