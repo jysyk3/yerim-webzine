@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://webzine.yerim.or.kr/sitemap.xml
